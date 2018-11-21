@@ -1,0 +1,30 @@
+jobs:
+- job: 'ParallelTesting'
+  pool:
+    name: Hosted Ubuntu 1604
+  strategy:
+    parallel: 5
+  displayName: Run tests in parallel
+
+  steps:
+  - task: DotNetCoreCLI@2
+    displayName: Build
+    inputs:
+      command: build
+      projects: '**/*.csproj'
+
+  - bash: |
+      tests=($(dotnet test . --no-build --list-tests | grep Test_))
+      . 'create_slicing_filter_condition.sh' $tests
+    displayName: 'Create slicing filter condition'
+  
+  - bash: |
+      echo "Slicing filter condition: $(targetTestsFilter)"
+    displayName: 'Echo slicing filter condition'
+
+  - task: DotNetCoreCLI@2
+    displayName: Test
+    inputs:
+      command: test
+      projects: '**/*Tests/*Tests.csproj'
+      arguments: '--no-build --filter "$(targetTestsFilter)"'
