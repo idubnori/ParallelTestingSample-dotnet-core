@@ -1,11 +1,13 @@
-ParallelTestingSample-dotnet
+ParallelTestingSample-dotnet-core
 ===
 [![Build Status](https://dev.azure.com/idubnori/idubnori/_apis/build/status/ParallelTestingSample-dotnet-CI)](https://dev.azure.com/idubnori/idubnori/_build/latest?definitionId=4)
 
-This dotnet parallel testing sample uses the `--list-tests` and `--filter` parameters of `dotnet test` to slice the tests. The tests are run using the NUnit.
+This .NET Core parallel testing sample uses `--list-tests` and `--filter` parameters of `dotnet test` to slice the tests. The tests are run using the NUnit.
+
+This sample has the 100 tests, and slices them to 20 tests in 5 jobs. You can see the pipeline behavior result by clicking the build status badge above.
 
 ## Overview of *azure-pipelines.yml*
- 1. Set parallel count to job (i.e. 5)
+### Setting up parallel count
 ```yml
 jobs:
 - job: 'ParallelTesting'
@@ -15,8 +17,10 @@ jobs:
     parallel: 5
   displayName: Run tests in parallel
 ```
- 2. Get test name list of all tests by using `--list-tests` parameter (100 in sample, Note that `grep Test_` to get test name only)
- 3. `create_slicing_filter_condition.sh` creates filter condition of sliced tests, and set into `$(targetTestsFilter)` (20 in sample)
+
+### Make slicing condition
+ - Get test name list of all tests by using `--list-tests` parameter and `grep Test_`
+ - `create_slicing_filter_condition.sh` makes filter condition to slice the tests, and set into `$(targetTestsFilter)`
 ```yml
   - bash: |
       tests=($(dotnet test . --no-build --list-tests | grep Test_))
@@ -24,7 +28,7 @@ jobs:
     displayName: 'Create slicing filter condition'
 ```
 
- 4. Use slicing filter condition in `dotnet test` command
+### Run tests using slicing condition
  ```yml
   - task: DotNetCoreCLI@2
     displayName: Test
@@ -33,3 +37,6 @@ jobs:
       projects: '**/*Tests/*Tests.csproj'
       arguments: '--no-build --filter "$(targetTestsFilter)"'
 ```
+
+## References
+ - [Speed up testing by running tests in parallel - Azure Pipelines & TFS | Microsoft Docs](https://docs.microsoft.com/en-us/azure/devops/pipelines/test/parallel-testing-any-test-runner?view=vsts)
