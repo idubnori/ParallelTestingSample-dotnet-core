@@ -2,12 +2,15 @@ using System.Collections;
 using System.IO;
 using FluentAssertions;
 using NUnit.Framework;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 
 namespace SliceTests
 {
     public class SliceTests
     {
+        private IWebDriver _webDriver;
+
         private static IEnumerable Words()
         {
             using (var reader = new StreamReader("./testdata/words.txt"))
@@ -19,8 +22,6 @@ namespace SliceTests
                 }
             }
         }
-
-        private ChromeDriver _webDriver;
 
         [SetUp]
         public void Setup()
@@ -39,14 +40,16 @@ namespace SliceTests
 
         [Test]
         [TestCaseSource(nameof(Words))]
-        public void SearchTest_ByWord_ContainsInTitle(string word)
+        public void SearchTest_ByWord_WordContainsInTitle(string word)
         {
+            // Arrange
+            var url = $"https://www.google.co.jp/search?q={word}";
+
             // Act
-            _webDriver.Url = $"https://www.google.co.jp/search?q={word}";
+            _webDriver.Url = url;
 
             // Assert
-            var title = _webDriver.Title;
-            title.Should().Contain(word).And.Contain("Google");
+            _webDriver.Title.Should().Contain(word);
         }
     }
 }
