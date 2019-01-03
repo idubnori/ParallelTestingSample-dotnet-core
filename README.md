@@ -1,6 +1,6 @@
 ParallelTestingSample-dotnet-core
 ===
-[![GitHub license](https://img.shields.io/github/license/idubnori/ParallelTestingSample-dotnet-core.svg)](https://github.com/idubnori/ParallelTestingSample-dotnet/blob/master/LICENSE)
+[![GitHub license](https://img.shields.io/github/license/idubnori/ParallelTestingSample-dotnet-core.svg)](https://github.com/idubnori/ParallelTestingSample-dotnet-core/blob/master/LICENSE)
 [![Build Status](https://dev.azure.com/idubnori/idubnori/_apis/build/status/ParallelTestingSample-dotnet-CI)](https://dev.azure.com/idubnori/idubnori/_build/latest?definitionId=4)
 
 This .NET Core parallel testing sample uses `--list-tests` and `--filter` parameters of `dotnet test` to slice the tests. The tests are run using the NUnit.
