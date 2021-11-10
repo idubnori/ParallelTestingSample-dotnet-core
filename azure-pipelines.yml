@@ -9,7 +9,7 @@ schedules:
 jobs:
 - job: 'ParallelTesting'
   pool:
-    name: Hosted Ubuntu 1604
+    vmImage: 'ubuntu-18.04'
   strategy:
     parallel: 5
   displayName: Run tests in parallel
