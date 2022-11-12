@@ -9,16 +9,16 @@ schedules:
 jobs:
 - job: 'ParallelTesting'
   pool:
-    vmImage: 'ubuntu-18.04'
+    vmImage: 'ubuntu-20.04'
   strategy:
     parallel: 5
   displayName: Run tests in parallel
 
   steps:
   - task: UseDotNet@2
-    displayName: 'Use .NET Core sdk 6.0.x'
+    displayName: 'Use .NET Core sdk 7.0.x'
     inputs:
-      version: 6.0.x
+      version: 7.0.x
       performMultiLevelLookup: true
       
   - task: DotNetCoreCLI@2
