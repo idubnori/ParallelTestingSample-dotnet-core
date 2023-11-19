@@ -16,9 +16,9 @@ jobs:
 
   steps:
   - task: UseDotNet@2
-    displayName: 'Use .NET Core sdk 7.0.x'
+    displayName: 'Use .NET sdk 8.0.x'
     inputs:
-      version: 7.0.x
+      version: 8.0.x
       performMultiLevelLookup: true
       
   - task: DotNetCoreCLI@2
