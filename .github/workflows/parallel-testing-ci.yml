@@ -41,8 +41,5 @@ jobs:
           bash create_slicing_filter_condition.sh $tests
           echo "targetTestsFilter=$(cat targetTestsFilter.txt)" >> $GITHUB_ENV
 
-      - name: Echo slicing filter condition
-        run: echo "Slicing filter condition: ${{ env.targetTestsFilter }}"
-
       - name: Test
         run: dotnet test ./SliceTests/SliceTests.csproj --no-build --filter "$targetTestsFilter"
