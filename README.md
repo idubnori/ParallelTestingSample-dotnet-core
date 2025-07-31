@@ -13,7 +13,7 @@ This sample has the 100 tests, and slices them to 20 tests in 5 jobs. You can se
 jobs:
 - job: 'ParallelTesting'
   pool:
-    name: Hosted Ubuntu 1604
+    vmImage: 'ubuntu-latest'
   strategy:
     parallel: 5
   displayName: Run tests in parallel
