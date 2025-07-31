@@ -9,7 +9,7 @@ schedules:
 jobs:
 - job: 'ParallelTesting'
   pool:
-    vmImage: 'ubuntu-20.04'
+    vmImage: 'ubuntu-latest'
   strategy:
     parallel: 5
   displayName: Run tests in parallel
@@ -19,6 +19,7 @@ jobs:
     displayName: 'Use .NET sdk 8.0.x'
     inputs:
       version: 8.0.x
+      useGlobalJson: true
       performMultiLevelLookup: true
       
   - task: DotNetCoreCLI@2
@@ -26,6 +27,7 @@ jobs:
     inputs:
       command: build
       projects: '**/*.csproj'
+      useGlobalJson: true
 
   - bash: |
       tests=($(dotnet test . --no-build --list-tests | grep Test_))
@@ -41,4 +43,5 @@ jobs:
     inputs:
       command: test
       projects: '**/*Tests/*Tests.csproj'
+      useGlobalJson: true
       arguments: '--no-build --filter "$(targetTestsFilter)"'
