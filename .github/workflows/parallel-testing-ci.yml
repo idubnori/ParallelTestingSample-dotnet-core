@@ -1,0 +1,45 @@
+name: Parallel Testing CI
+
+on:
+  schedule:
+    - cron: '0 3 * * 1'
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  parallel-testing-ci:
+    name: Run tests in parallel
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        slice: [1, 2, 3, 4, 5]
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8.0.x
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Install dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore
+
+      - name: List tests and create slicing filter
+        id: slicing
+        run: |
+          tests=$(dotnet test . --no-build --list-tests | grep Test_)
+          bash create_slicing_filter_condition.sh $tests
+          echo "targetTestsFilter=$(cat targetTestsFilter.txt)" >> $GITHUB_ENV
+
+      - name: Test
+        run: dotnet test ./SliceTests/SliceTests.csproj --no-build --filter "$targetTestsFilter"
