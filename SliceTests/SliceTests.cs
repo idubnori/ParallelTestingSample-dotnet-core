@@ -29,13 +29,15 @@ namespace SliceTests
             var options = new ChromeOptions();
             options.AddArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage");
 
-            _webDriver = new ChromeDriver(Directory.GetCurrentDirectory(), options);
+            // Selenium Manager resolves a ChromeDriver compatible with the Chrome
+            // version installed on the hosted agent.
+            _webDriver = new ChromeDriver(options);
         }
 
         [TearDown]
         public void TearDown()
         {
-            _webDriver.Quit();
+            _webDriver?.Quit();
         }
 
         [Test]
