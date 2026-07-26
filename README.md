@@ -3,11 +3,12 @@ ParallelTestingSample-dotnet-core
 [![GitHub license](https://img.shields.io/github/license/idubnori/ParallelTestingSample-dotnet-core.svg)](https://github.com/idubnori/ParallelTestingSample-dotnet-core/blob/master/LICENSE)
 [![Build Status](https://dev.azure.com/idubnori/idubnori/_apis/build/status/ParallelTestingSample-dotnet-CI)](https://dev.azure.com/idubnori/idubnori/_build/latest?definitionId=4)
 
-This .NET Core parallel testing sample uses `--list-tests` and `--filter` parameters of `dotnet test` to slice the tests. The tests are run using the NUnit.
+This .NET 10 parallel testing sample uses `--list-tests` and `--filter` parameters of `dotnet test` to slice the tests. The tests are run using the NUnit.
 
 This sample has the 100 tests, and slices them to 20 tests in 5 jobs. You can see the pipeline behavior result by clicking the build status badge above.
 
 ## Overview of *azure-pipelines.yml*
+
 ### Setting up parallel count
 ```yml
 jobs:
