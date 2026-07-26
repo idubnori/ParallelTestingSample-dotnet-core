@@ -16,18 +16,15 @@ jobs:
 
   steps:
   - task: UseDotNet@2
-    displayName: 'Use .NET sdk 8.0.x'
+    displayName: 'Use .NET SDK from global.json'
     inputs:
-      version: 8.0.x
       useGlobalJson: true
-      performMultiLevelLookup: true
       
   - task: DotNetCoreCLI@2
     displayName: Build
     inputs:
       command: build
       projects: '**/*.csproj'
-      useGlobalJson: true
 
   - bash: |
       tests=($(dotnet test . --no-build --list-tests | grep Test_))
@@ -43,5 +40,4 @@ jobs:
     inputs:
       command: test
       projects: '**/*Tests/*Tests.csproj'
-      useGlobalJson: true
       arguments: '--no-build --filter "$(targetTestsFilter)"'
