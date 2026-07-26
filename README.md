@@ -8,13 +8,6 @@ This .NET 10 parallel testing sample uses `--list-tests` and `--filter` paramete
 This sample has the 100 tests, and slices them to 20 tests in 5 jobs. You can see the pipeline behavior result by clicking the build status badge above.
 
 ## Overview of *azure-pipelines.yml*
-### Selecting the SDK
-```yml
-  - task: UseDotNet@2
-    displayName: 'Use .NET SDK from global.json'
-    inputs:
-      useGlobalJson: true
-```
 
 ### Setting up parallel count
 ```yml
