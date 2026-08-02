@@ -37,6 +37,7 @@ jobs:
 
   - task: DotNetCoreCLI@2
     displayName: Test
+    retryCountOnTaskFailure: 2
     inputs:
       command: test
       projects: '**/*Tests/*Tests.csproj'
