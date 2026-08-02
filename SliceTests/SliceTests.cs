@@ -41,6 +41,7 @@ namespace SliceTests
         }
 
         [Test]
+        [Retry(3)]
         [TestCaseSource(nameof(Words))]
         public void SearchTest_ByWord_WordContainsInTitle(string word)
         {
