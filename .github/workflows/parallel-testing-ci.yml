@@ -1,0 +1,48 @@
+name: Parallel Testing CI
+
+on:
+  schedule:
+    - cron: '0 3 * * 1'
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  parallel-testing-ci:
+    name: Run tests in parallel (${{ matrix.slice }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        slice: [1, 2, 3, 4, 5]
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK from global.json
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore
+
+      - name: List tests and create slicing filter
+        run: |
+          tests=($(dotnet test . --no-build --list-tests | grep Test_))
+          export SYSTEM_TOTALJOBSINPHASE=5
+          export SYSTEM_JOBPOSITIONINPHASE=${{ matrix.slice }}
+          . ./create_slicing_filter_condition.sh "${tests[@]}"
+          echo "targetTestsFilter=$targetTestsFilter" >> "$GITHUB_ENV"
+
+      - name: Test
+        run: dotnet test ./SliceTests/SliceTests.csproj --no-build --filter "$targetTestsFilter"

@@ -7,6 +7,8 @@ This .NET 10 parallel testing sample uses `--list-tests` and `--filter` paramete
 
 This sample has the 100 tests, and slices them to 20 tests in 5 jobs. You can see the pipeline behavior result by clicking the build status badge above.
 
+For the GitHub Actions equivalent, see the [GitHub Actions overview](.github/README.md).
+
 ## Overview of *azure-pipelines.yml*
 
 ### Setting up parallel count
