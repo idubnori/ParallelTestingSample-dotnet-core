@@ -23,3 +23,9 @@ The workflow creates five Ubuntu jobs with a matrix. Each job:
 
 The matrix uses `fail-fast: false`, so all five slices finish and report their
 results even when one slice fails.
+
+## Runner image
+
+The workflow is pinned to `ubuntu-24.04`. This avoids an unreviewed change to
+Ubuntu 26.04 when GitHub migrates the `ubuntu-latest` label. Test the workflow
+with `ubuntu-26.04` and update the pin deliberately once it is compatible.
